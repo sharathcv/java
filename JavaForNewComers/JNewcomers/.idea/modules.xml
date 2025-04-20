@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/JN_01000_L/JN_01000_L.iml" filepath="$PROJECT_DIR$/JN_01000_L/JN_01000_L.iml" />
       <module fileurl="file://$PROJECT_DIR$/JNewcomers.iml" filepath="$PROJECT_DIR$/JNewcomers.iml" />
     </modules>
   </component>
