@@ -9,9 +9,9 @@ public class SecretService {
 
     private void run() {
         Agent[] agents = new Agent[] {
-                new Agent("Top", "Agent"),
-                new Agent("Super", "Agent"),
-                new Agent("Secret", "Agent")
+                new Agent("Top", "Agent", null),
+                new Agent("Super", "Agent", null),
+                new Agent("Secret", "Agent", 777)
         };
 
         introduceLikeSecretAgents(agents);

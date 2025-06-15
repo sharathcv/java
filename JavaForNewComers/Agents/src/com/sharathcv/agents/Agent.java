@@ -3,10 +3,12 @@ package com.sharathcv.agents;
 public class Agent {
     private String firstName;
     private String lastName;
+    private Integer codeName;
 
-    public Agent(String firstName, String lastName) {
+    public Agent(String firstName, String lastName, Integer codeName) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.codeName = codeName;
     }
 
     public String getFirstName() {
@@ -27,5 +29,13 @@ public class Agent {
 
     public String toString() {
         return firstName + " " + lastName;
+    }
+
+    public Integer getCodeName() {
+        return codeName;
+    }
+
+    private void setCodeName(Integer codeName) {
+        this.codeName = codeName;
     }
 }
