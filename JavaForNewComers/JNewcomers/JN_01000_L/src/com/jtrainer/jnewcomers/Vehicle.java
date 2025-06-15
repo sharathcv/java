@@ -1,6 +1,7 @@
 package com.jtrainer.jnewcomers;
 
 public class Vehicle {
+    private static int numberDiscountedVehicles = 0;
 
     private String manufacturer;
     private String model;
@@ -9,10 +10,15 @@ public class Vehicle {
     private String yearOfManufacture;
     private int miles;
     private int price;
+    private Double discountInPercent;
     private boolean sold;
 
+    public static boolean hasDiscountedVehicles() {
+        return numberDiscountedVehicles > 0;
+    }
+
     public Vehicle(String manufacturer, String model, String color, int horsepower, String yearOfManufacture,
-                   int miles, int price) {
+                   int miles, int price, Double discountInPercent) {
         this.manufacturer = manufacturer;
         this.model = model;
         this.color = color;
@@ -20,6 +26,7 @@ public class Vehicle {
         this.yearOfManufacture = yearOfManufacture;
         this.miles = miles;
         this.price = price;
+        setDiscountInPercent(discountInPercent);
         this.sold = false;
     }
 
@@ -79,6 +86,20 @@ public class Vehicle {
         this.price = price;
     }
 
+    public Double getDiscountInPercent() {
+        return discountInPercent;
+    }
+
+    public void setDiscountInPercent(Double discountInPercent) {
+        if (this.discountInPercent == null && discountInPercent != null) {
+            numberDiscountedVehicles++;
+        }
+        if (this.discountInPercent != null && discountInPercent == null) {
+            numberDiscountedVehicles--;
+        }
+        this.discountInPercent = discountInPercent;
+    }
+
     public boolean isSold() {
         return sold;
     }
@@ -90,6 +111,9 @@ public class Vehicle {
     public String toString() {
         String result = manufacturer + " " + model + " " + color + " " + horsepower + "hp year built "
                 + yearOfManufacture + " " + miles + " miles $" + price;
+        if (discountInPercent != null) {
+            result = result + " minus " + discountInPercent + "% discount";
+        }
         if (isSold()) {
             result = result + " SOLD";
         }
@@ -98,5 +122,15 @@ public class Vehicle {
 
     public boolean hasPopularColor() {
         return "gray".equalsIgnoreCase(color) || "black".equalsIgnoreCase(color) || "white".equalsIgnoreCase(color);
+    }
+
+    public int calculateDiscountPrice() {
+        if (discountInPercent != null) {
+            double percentageFactor = discountInPercent / 100.0;
+            int discountInDollar = (int) (price * percentageFactor);
+            return price - discountInDollar;
+        } else {
+            return price;
+        }
     }
 }

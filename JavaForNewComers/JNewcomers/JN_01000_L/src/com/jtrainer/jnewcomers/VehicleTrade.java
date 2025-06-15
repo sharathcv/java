@@ -3,10 +3,16 @@ package com.jtrainer.jnewcomers;
 import java.util.Scanner;
 
 public class VehicleTrade {
+    // final keyword is used to define constant in java
+    private static final int SELECTION_MENU_LIST_VEHICLE_CATEGORIES = 1;
+    private static final int SELECTION_MENU_SEARCH_USED_VEHICLES = 2;
+    private static final int SELECTION_MENU_CREDIT_ADVICE = 3;
+    private static final int SELECTION_MENU_EXIT = 9;
 
     private Vehicle[] vehicles;
 
     public static void main(String[] args) {
+        System.out.println("Module " + args[0] + " - Copyright Torsten Krüger 2023 - All rights reserved.");
         new VehicleTrade().run();
     }
 
@@ -14,6 +20,9 @@ public class VehicleTrade {
         createVehicles();
 
         System.out.println("Welcome to the vehicle trade!");
+        if (Vehicle.hasDiscountedVehicles()) {
+            System.out.println("We offer attractive discounts.");
+        }
 
         int selection;
         do {
@@ -22,11 +31,11 @@ public class VehicleTrade {
             Scanner scanner = new Scanner(System.in);
             selection = scanner.nextInt();
 
-            if (selection == 1) {
+            if (selection == SELECTION_MENU_LIST_VEHICLE_CATEGORIES) {
                 listVehicleCategories();
             }
 
-            if (selection == 2) {
+            if (selection == SELECTION_MENU_SEARCH_USED_VEHICLES) {
                 String vehicleCategory = selectVehicleCategory(scanner);
 
                 Vehicle vehicle = selectVehicle(scanner, vehicleCategory);
@@ -34,10 +43,10 @@ public class VehicleTrade {
                 sellVehicle(vehicle);
             }
 
-            if (selection == 3) {
+            if (selection == SELECTION_MENU_CREDIT_ADVICE) {
                 creditAdvice(scanner, 1.03);
             }
-        } while (selection != 9);
+        } while (selection != SELECTION_MENU_EXIT);
 
         System.out.println("Bye and visit us again soon.");
     }
@@ -45,25 +54,25 @@ public class VehicleTrade {
     private void createVehicles() {
         vehicles = new Vehicle[] {
                 new Vehicle("VW", "Golf VI Variant", "silver", 150,
-                        "08/2022", 30_000, 19_500),
+                        "08/2022", 30_000, 19_500, 1.5),
                 new Vehicle("Audi", "A6 Avant", "deep blue", 200,
-                        "06/2021", 56_500, 39_900),
+                        "06/2021", 56_500, 39_900, 3.0),
                 new Vehicle("BMW", "525d Touring AT", "black", 245,
-                        "05/2020", 75_000, 29_800),
+                        "05/2020", 75_000, 29_800, null),
                 new Vehicle("MB", "E220d", "silver", 200,
-                        "11/2019", 90_500, 27_900),
+                        "11/2019", 90_500, 27_900, null),
                 new Vehicle("Opel", "Astra 1.6i", "gray", 110,
-                        "03/2023", 1_250, 23_500)
+                        "03/2023", 1_250, 23_500, null)
         };
     }
 
     private void printMenu() {
         System.out.println();
         System.out.println("What do you want to do?");
-        System.out.println("1) List vehicle categories");
-        System.out.println("2) Search used vehicle");
-        System.out.println("3) Credit advice");
-        System.out.println("9) Exit");
+        System.out.println(SELECTION_MENU_LIST_VEHICLE_CATEGORIES + ") List vehicle categories");
+        System.out.println(SELECTION_MENU_SEARCH_USED_VEHICLES + ") Search used vehicle");
+        System.out.println(SELECTION_MENU_CREDIT_ADVICE + ") Credit advice");
+        System.out.println(SELECTION_MENU_EXIT + ") Exit");
     }
 
     private void listVehicleCategories() {
@@ -137,7 +146,7 @@ public class VehicleTrade {
             System.out.println("Sorry, the vehicle is already sold, someone else was quicker than you!");
         } else {
             System.out.println("Please pay the purchase price in the amount of $"
-                    + vehicle.getPrice() + " to our account.");
+                    + vehicle.calculateDiscountPrice() + " to our account.");
             System.out.println("Congratulations, you have bought vehicle \"" + vehicle + "\".");
             if (vehicle.hasPopularColor()) {
                 System.out.println("Your vehicle has a popular color.");
