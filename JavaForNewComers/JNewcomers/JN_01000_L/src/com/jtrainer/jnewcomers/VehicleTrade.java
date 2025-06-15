@@ -4,10 +4,7 @@ import java.util.Scanner;
 
 public class VehicleTrade {
 
-    private Vehicle vehicle0;
-    private Vehicle vehicle1;
-    private Vehicle vehicle2;
-    private Vehicle vehicle3;
+    private Vehicle[] vehicles;
 
     public static void main(String[] args) {
         new VehicleTrade().run();
@@ -16,7 +13,7 @@ public class VehicleTrade {
     private void run() {
         createVehicles();
 
-        System.out.println("Welcome to the Vehicle Trading System!");
+        System.out.println("Welcome to the vehicle trade!");
 
         int selection;
         do {
@@ -46,17 +43,18 @@ public class VehicleTrade {
     }
 
     private void createVehicles() {
-        vehicle0 = new Vehicle("VW", "Golf VI Variant", "silver", 150,
-                "08/2022", 30_000, 19_500);
-
-        vehicle1 = new Vehicle("Audi", "A6 Avant", "deep blue", 200,
-                "06/2021", 56_500, 39_900);
-
-        vehicle2 = new Vehicle("BMW", "525d Touring AT", "black", 245,
-                "05/2020", 75_000, 29_800);
-
-        vehicle3 = new Vehicle("MB", "E220d", "silver", 200,
-                "11/2019", 90_500, 27_900);
+        vehicles = new Vehicle[] {
+                new Vehicle("VW", "Golf VI Variant", "silver", 150,
+                        "08/2022", 30_000, 19_500),
+                new Vehicle("Audi", "A6 Avant", "deep blue", 200,
+                        "06/2021", 56_500, 39_900),
+                new Vehicle("BMW", "525d Touring AT", "black", 245,
+                        "05/2020", 75_000, 29_800),
+                new Vehicle("MB", "E220d", "silver", 200,
+                        "11/2019", 90_500, 27_900),
+                new Vehicle("Opel", "Astra 1.6i", "gray", 110,
+                        "03/2023", 1_250, 23_500)
+        };
     }
 
     private void printMenu() {
@@ -100,25 +98,19 @@ public class VehicleTrade {
 
     private Vehicle selectVehicle(Scanner scanner, String vehicleCategory) {
         System.out.println("We have the following vehicles of the category \"" + vehicleCategory + "\" on offer:");
-        System.out.println("1) " + vehicle0);
-        System.out.println("2) " + vehicle1);
-        System.out.println("3) " + vehicle2);
-        System.out.println("4) " + vehicle3);
+
+        for (int i = 0; i < vehicles.length; i++) {
+            System.out.println((i + 1) + ") " + vehicles[i]);
+        }
+
         System.out.println("Which vehicle do you want to buy?");
         int vehicleNumber = scanner.nextInt();
 
-        switch (vehicleNumber) {
-            case 1:
-                return vehicle0;
-            case 2:
-                return vehicle1;
-            case 3:
-                return vehicle2;
-            case 4:
-                return vehicle3;
-            default:
-                return null;
+        int index = vehicleNumber - 1;
+        if (index < 0 || index >= vehicles.length) {
+            return null;
         }
+        return vehicles[index];
     }
 
     private boolean creditAdvice(Scanner scanner, double interestFactor) {
